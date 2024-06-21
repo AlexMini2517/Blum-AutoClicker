@@ -1,5 +1,5 @@
-from pyautogui import *
 import pyautogui, time, keyboard, random, win32api, win32con, pyscreeze, pygetwindow as gw
+# import os
 
 # function to click a certain x, y position on the screen
 def click(x, y):
@@ -13,34 +13,28 @@ def has_mouse_moved(prev_pos):
     return current_pos != prev_pos
 
 # function to get the window of the application
-def get_window():
+def get_window(window_name):
     try:
         window = gw.getWindowsWithTitle(window_name)[0]
         return window
     except IndexError:
         return None # if the window is not found
 
-def get_settings(choice):
-    if choice == "1": # TelegramDesktop
-        return 9, 70, -18, -120, 50, -90
-    elif choice == "2": # Unigram
-        return 9, 60, -32, -80, 50, -70
-
 # function to get the choice of the user
-def get_choice():
+def show_menu():
     print("Select the window you want to use:")
     print("1: TelegramDesktop")
-    print("2: Unigram")
-    choice = input("Enter the number of the window you want to use: ")
-    return choice
 
-choice = get_choice()
+show_menu()
+choice = input("Enter the number of the window you want to use: ")
+print()
 if choice == "1":
     window_name = "TelegramDesktop"
-elif choice == "2":
-    window_name = "Unigram"
+else:
+    print("Invalid choice. Exiting...")
+    exit(1)
 
-window = get_window()
+window = get_window(window_name)
 if window is None:
     input("Window not found. Press ENTER to exit.")
     exit(1)
@@ -48,7 +42,7 @@ if window is None:
 # pyautogui.displayMousePosition()
 
 window_left, window_top, window_width, window_height = window.left, window.top, window.width, window.height
-x_edit, y_edit, width_edit, height_edit, restart_button_x, restart_button_y = get_settings(choice)
+x_edit, y_edit, width_edit, height_edit, restart_button_x, restart_button_y = 9, 70, -18, -120, 50, -90
 x, y, width, height = window_left+x_edit, window_top+y_edit, window_width+width_edit, window_height+height_edit
 
 sleep_time = 1
@@ -67,13 +61,17 @@ while True:
             print(" [RESUMED] - Program resumed. Press 'q' to pause.")
             # get the window again in case it was moved
             window = get_window()
+            if window is None:
+                input("Window not found. Press ENTER to exit.")
+                exit(1)
             window_left, window_top, window_width, window_height = window.left, window.top, window.width, window.height
             x, y, width, height = window_left+x_edit, window_top+y_edit, window_width+width_edit, window_height+height_edit
         time.sleep(0.5)
 
     if not paused:
+        # current_dir = os.path.dirname(os.path.abspath(__file__))
         # iml = pyautogui.screenshot(region=(x, y, width, height))
-        # iml.save(r"Python\Blum\image.jpg")
+        # iml.save(r"{current_dir}\screenshot.png")
         
         pic = pyautogui.screenshot(region=(x, y, width, height))
         width, height = pic.size
