@@ -1,0 +1,4 @@
+pyautogui
+keyboard
+pyscreeze
+pywin32
