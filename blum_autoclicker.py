@@ -1,6 +1,7 @@
 from pyautogui import *
 import pyautogui, time, keyboard, random, win32api, win32con, pyscreeze, pygetwindow as gw
 
+# function to click a certain x, y position on the screen
 def click(x, y):
     win32api.SetCursorPos((x, y))
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0)
