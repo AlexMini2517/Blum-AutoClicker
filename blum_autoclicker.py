@@ -60,7 +60,7 @@ while True:
         else:
             print(" [RESUMED] - Program resumed. Press 'q' to pause.")
             # get the window again in case it was moved
-            window = get_window()
+            window = get_window(window_name)
             if window is None:
                 input("Window not found. Press ENTER to exit.")
                 exit(1)
