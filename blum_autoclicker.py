@@ -1,5 +1,17 @@
-import pyautogui, time, keyboard, random, win32api, win32con, pyscreeze, pygetwindow as gw
-# import os
+try:
+    import keyboard
+    # import os
+    import pyautogui
+    import pygetwindow as gw
+    import pyscreeze
+    import random
+    import time
+    import win32api
+    import win32con
+except ImportError as e:
+    print(f"[ERROR]: {e}")
+    input("Press ENTER to exit...")
+    exit(1)
 
 # function to click a certain x, y position on the screen
 def click(x, y):
@@ -22,8 +34,7 @@ def get_window(window_name):
 
 def is_window_none(window):
     if window is None:
-        print()
-        input("Window not found. Press ENTER to exit.")
+        input("Window not found. Press ENTER to exit...")
         exit(1)
 
 # function to get the choice of the user
@@ -38,7 +49,7 @@ print()
 if choice == "1":
     window_name = "TelegramDesktop"
 else:
-    print("Invalid choice. Exiting...")
+    input("Invalid choice. Press ENTER to exit...")
     exit(1)
 
 window = get_window(window_name)
