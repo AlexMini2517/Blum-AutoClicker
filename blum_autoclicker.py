@@ -56,15 +56,13 @@ window = get_window(window_name)
 is_window_none(window)
 
 window_left, window_top, window_width, window_height = window.left, window.top, window.width, window.height
-x_edit, y_edit, width_edit, height_edit, restart_button_x, restart_button_y = 9, 70, -18, -120, int(window_width/2), -85
+x_edit, y_edit, width_edit, height_edit, restart_button_x, restart_button_y = 9, 150, -18, -200, int(window_width/2), -85
 x, y, width, height = window_left+x_edit, window_top+y_edit, window_width+width_edit, window_height+height_edit
 
 sleep_time = 1
 print(f"[STARTING] - The program will start in {sleep_time} seconds. Press 'q' to pause/resume.")
 time.sleep(sleep_time)
 
-prev_mouse_pos = pyautogui.position() # get the initial position of the mouse
-mouse_stationary_start = time.time()
 paused = False
 while True:
     if keyboard.is_pressed('q'):
@@ -80,29 +78,33 @@ while True:
             x, y, width, height = window_left+x_edit, window_top+y_edit, window_width+width_edit, window_height+height_edit
         time.sleep(0.5)
 
-    if not paused:
+    if paused:
+        time.sleep(0.1)
+        continue
+    else:
         # current_dir = os.path.dirname(os.path.abspath(__file__))
         # iml = pyautogui.screenshot(region=(x, y, width, height))
-        # iml.save(r"{current_dir}\screenshot.png")
+        # iml.save(f"{current_dir}\screenshot.png")
+        # time.sleep(1)
 
-        window = get_window(window_name)
-        is_window_none(window)
-        
-        pic = pyautogui.screenshot(region=(x, y, width, height))
-        width, height = pic.size
-        for i in range(0, width, 2): # for loops for clicking the green objects
-            for j in range(0, height, 2):
-                r, g, b = pic.getpixel((i, j))
-                if r == 205 and g == 220:
-                    click(i + x, j + y)
-                    time.sleep(0.001) # sleep to prevent too much CPU usage
-                    break
-        
-        if has_mouse_moved(prev_mouse_pos): # check if the mouse has moved
-            prev_mouse_pos = pyautogui.position()
-            mouse_stationary_start = time.time()
-        elif time.time() - mouse_stationary_start > 2: # if the mouse has not moved for 2 seconds, click the restart button
+        try:
             restart_button_color = pyautogui.pixel(window.left+restart_button_x, window.bottom+restart_button_y)
             if restart_button_color == (255, 255, 255):
+                time.sleep(0.5) # sleep to not click the restart button too fast
                 click(window.left+restart_button_x, window.bottom+restart_button_y)
-            mouse_stationary_start = time.time()
+
+            pic = pyautogui.screenshot(region=(x, y, width, height))
+            width, height = pic.size
+            for i in range(0, width, 2): # for loops for clicking the green objects
+                for j in range(0, height, 2):
+                    r, g, b = pic.getpixel((i, j))
+
+                    if (r == 28 and g == 29 and b == 30) or (r == 48 and g == 50 and b == 52): # both conditions are to prevent clicking the background
+                        continue
+
+                    if r > 250 or ((abs(r - g) <= 10 and abs(g - b) <= 10 and abs(r - b) <= 10) and (r > 130 and g > 130 and b > 130)): # first condition is for magenta, second condition is for gray
+                        click(i + x, j + y)
+                        time.sleep(0.001) # sleep to prevent too much CPU usage
+                        break
+        except:
+            is_window_none(window)
