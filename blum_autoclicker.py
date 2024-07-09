@@ -37,21 +37,8 @@ def is_window_none(window):
         input("Window not found. Press ENTER to exit...")
         exit(1)
 
-# function to get the choice of the user
-def show_menu():
-    print("1: TelegramDesktop")
-
 # pyautogui.displayMousePosition()
-
-show_menu()
-choice = input("Select the window you want to use: ")
-print()
-if choice == "1":
-    window_name = "TelegramDesktop"
-else:
-    input("Invalid choice. Press ENTER to exit...")
-    exit(1)
-
+window_name = "TelegramDesktop"
 window = get_window(window_name)
 is_window_none(window)
 
@@ -80,7 +67,6 @@ while True:
 
     if paused:
         time.sleep(0.1)
-        continue
     else:
         # current_dir = os.path.dirname(os.path.abspath(__file__))
         # iml = pyautogui.screenshot(region=(x, y, width, height))
@@ -98,11 +84,7 @@ while True:
             for i in range(0, width, 2): # for loops for clicking the green objects
                 for j in range(0, height, 2):
                     r, g, b = pic.getpixel((i, j))
-
-                    if (r == 28 and g == 29 and b == 30) or (r == 48 and g == 50 and b == 52): # both conditions are to prevent clicking the background
-                        continue
-
-                    if r > 250 or ((abs(r - g) <= 10 and abs(g - b) <= 10 and abs(r - b) <= 10) and (r > 130 and g > 130 and b > 130)): # first condition is for magenta, second condition is for gray
+                    if r == 205 and g == 220:
                         click(i + x, j + y)
                         time.sleep(0.001) # sleep to prevent too much CPU usage
                         break
