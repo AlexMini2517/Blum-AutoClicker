@@ -39,9 +39,8 @@ window_name = "TelegramDesktop"
 window = get_window(window_name)
 is_window_none(window)
 
-window_left, window_top, window_width, window_height = window.left, window.top, window.width, window.height
-x_edit, y_edit, width_edit, height_edit, restart_button_x, restart_button_y = 9, 150, -18, -200, int(window_width / 2), -85
-x, y, width, height = window_left + x_edit, window_top + y_edit, window_width + width_edit, window_height + height_edit
+x_edit, y_edit, width_edit, height_edit, restart_button_x, restart_button_y = 9, 150, -18, -200, int(window.width / 2), -85
+x, y, width, height = window.left + x_edit, window.top + y_edit, window.width + width_edit, window.height + height_edit
 
 sleep_time = 1
 print(colored("[INFO]", "white", attrs=['bold']), end="")
@@ -71,8 +70,7 @@ while True:
         # refresh the window status and coordinates
         window = get_window(window_name)
         is_window_none(window)
-        window_left, window_top, window_width, window_height = window.left, window.top, window.width, window.height
-        x, y, width, height = window_left+x_edit, window_top+y_edit, window_width+width_edit, window_height+height_edit
+        x, y, width, height = window.left+x_edit, window.top+y_edit, window.width+width_edit, window.height+height_edit
 
         try:
             restart_button_color = pyautogui.pixel(window.left + restart_button_x, window.bottom + restart_button_y)
