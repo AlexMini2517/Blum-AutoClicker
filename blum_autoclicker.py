@@ -93,85 +93,81 @@ def close_blum_window():
     click(1120, 195) # close the blum window
     time.sleep(1)
 
-def main():
-    # pyautogui.displayMousePosition()
-    paused = False
-    flag = 0
-    offset = 0
-    index = 0
-    while True:
-        if offset != 40*3:
-            setup_blum_bot(offset)
+# pyautogui.displayMousePosition()
+initialize()
+paused = False
+flag = 0
+offset = 0
+index = 0
+while True:
+    if offset != 40*3:
+        setup_blum_bot(offset)
 
-            window_name = "TelegramDesktop"
-            window = get_window(window_name)
-            is_window_none(window)
+        window_name = "TelegramDesktop"
+        window = get_window(window_name)
+        is_window_none(window)
 
-            x_offset, y_offset, width_offset, height_offset, restart_button_x, restart_button_y = 9, 150, -18, -200, int(window.width / 2), -85
-            x, y, width, height = window.left + x_offset, window.top + y_offset, window.width + width_offset, window.height + height_offset
-            click(window.left + restart_button_x, window.bottom + restart_button_y)
-            time.sleep(1)
+        x_offset, y_offset, width_offset, height_offset, restart_button_x, restart_button_y = 9, 150, -18, -200, int(window.width / 2), -85
+        x, y, width, height = window.left + x_offset, window.top + y_offset, window.width + width_offset, window.height + height_offset
+        click(window.left + restart_button_x, window.bottom + restart_button_y)
+        time.sleep(1)
 
-            start_game()
+        start_game()
 
-            # start the autoclicker
-            offset += 40
-            prev_mouse_pos = pyautogui.position()
-            last_move_time = time.time()
-            while flag==0:
-                if keyboard.is_pressed('q'):
-                    paused = not paused # one time it pauses, the other time it resumes
-                    if paused:
-                        print(colored("[PAUSED]", "yellow", attrs=['bold']), end="")
-                        print(colored(" - Program paused. Press 'q' to activate.", "yellow"))
-                    else:
-                        print(colored("[ACTIVE]", "green", attrs=['bold']), end="")
-                        print(colored(" - Program active. Press 'q' to pause.", "green"))
-                    time.sleep(0.25)
-
+        # start the autoclicker
+        offset += 40
+        prev_mouse_pos = pyautogui.position()
+        last_move_time = time.time()
+        while flag==0:
+            if keyboard.is_pressed('q'):
+                paused = not paused # one time it pauses, the other time it resumes
                 if paused:
-                    time.sleep(0.1)
+                    print(colored("[PAUSED]", "yellow", attrs=['bold']), end="")
+                    print(colored(" - Program paused. Press 'q' to activate.", "yellow"))
                 else:
-                    # current_dir = os.path.dirname(os.path.abspath(__file__))
-                    # iml = pyautogui.screenshot(region=(x, y, width, height))
-                    # iml.save(f"{current_dir}\screenshot.png")
-                    # time.sleep(1)
+                    print(colored("[ACTIVE]", "green", attrs=['bold']), end="")
+                    print(colored(" - Program active. Press 'q' to pause.", "green"))
+                time.sleep(0.25)
 
-                    # refresh the window status and coordinates
-                    window = get_window(window_name)
-                    is_window_none(window)
-                    x, y, width, height = window.left+x_offset, window.top+y_offset, window.width+width_offset, window.height+height_offset
-
-                    try:
-                        check_restart_button()
-
-                        click_green_objects(x, y, width, height)
-                        
-                        current_mouse_position = pyautogui.position()
-                        if current_mouse_position != prev_mouse_pos:
-                            prev_mouse_pos = current_mouse_position
-                            last_move_time = time.time()
-                        if time.time() - last_move_time > 3: # if the mouse is not moving for 3 seconds
-                            flag = 1 # exit the inner while loop to change the user
-                    except:
-                        is_window_none(window)
-            
-            flag = 0
-            close_blum_window()
-        else:
-            if index == 0:
-                index += 3
-                offset = 0
-                click(1919, 1079) # go to desktop
-                time.sleep(1)
-                double_click(875, 735) # open the second telegram
-                time.sleep(5)
+            if paused:
+                time.sleep(0.1)
             else:
-                print(colored("[INFO]", "white", attrs=['bold']), end="")
-                print(colored(" - All users have been farmed. Press ENTER to exit...", "white"))
-                input()
-                exit(1)
+                # current_dir = os.path.dirname(os.path.abspath(__file__))
+                # iml = pyautogui.screenshot(region=(x, y, width, height))
+                # iml.save(f"{current_dir}\screenshot.png")
+                # time.sleep(1)
 
-if __name__ == "__main__":
-    initialize()
-    main()
+                # refresh the window status and coordinates
+                window = get_window(window_name)
+                is_window_none(window)
+                x, y, width, height = window.left+x_offset, window.top+y_offset, window.width+width_offset, window.height+height_offset
+
+                try:
+                    check_restart_button()
+
+                    click_green_objects(x, y, width, height)
+                    
+                    current_mouse_position = pyautogui.position()
+                    if current_mouse_position != prev_mouse_pos:
+                        prev_mouse_pos = current_mouse_position
+                        last_move_time = time.time()
+                    if time.time() - last_move_time > 3: # if the mouse is not moving for 3 seconds
+                        flag = 1 # exit the inner while loop to change the user
+                except:
+                    is_window_none(window)
+        
+        flag = 0
+        close_blum_window()
+    else:
+        if index == 0:
+            index += 3
+            offset = 0
+            click(1919, 1079) # go to desktop
+            time.sleep(1)
+            double_click(875, 735) # open the second telegram
+            time.sleep(5)
+        else:
+            print(colored("[INFO]", "white", attrs=['bold']), end="")
+            print(colored(" - All users have been farmed. Press ENTER to exit...", "white"), end="")
+            input()
+            exit(1)
