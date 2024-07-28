@@ -7,6 +7,7 @@ try:
     import time
     import win32api
     import win32con
+    from termcolor import colored
 except ImportError as e:
     print(f"[ERROR]: {e}")
     input("Press ENTER to exit...")
@@ -28,7 +29,9 @@ def get_window(window_name):
 
 def is_window_none(window):
     if window is None:
-        input("Window 'TelegramDesktop' not found. Press ENTER to exit...")
+        print(colored("[ERROR]", "red", attrs=['bold']), end="")
+        print(colored(f" - Window '{window_name}' not found. Press ENTER to exit...", "red"), end="")
+        input()
         exit(1)
 
 # pyautogui.displayMousePosition()
@@ -41,7 +44,8 @@ x_edit, y_edit, width_edit, height_edit, restart_button_x, restart_button_y = 9,
 x, y, width, height = window_left + x_edit, window_top + y_edit, window_width + width_edit, window_height + height_edit
 
 sleep_time = 1
-print(f"[STARTING] - The program will start in {sleep_time} seconds. Press 'q' to activate/pause.")
+print(colored("[INFO]", "white", attrs=['bold']), end="")
+print(colored(f" - The program will start in {sleep_time} seconds. Press 'q' to activate/pause.", "white"))
 time.sleep(sleep_time)
 
 paused = False
@@ -49,15 +53,12 @@ while True:
     if keyboard.is_pressed('q'):
         paused = not paused # one time it pauses, the other time it resumes
         if paused:
-            print("[PAUSED] - Program paused. Press 'q' to activate.")
+            print(colored("[PAUSED]", "yellow", attrs=['bold']), end="")
+            print(colored(" - Program paused. Press 'q' to activate.", "yellow"))
         else:
-            print("[ACTIVE] - Program active. Press 'q' to pause.")
-            # refresh the window status and coordinates
-            window = get_window(window_name)
-            is_window_none(window)
-            window_left, window_top, window_width, window_height = window.left, window.top, window.width, window.height
-            x, y, width, height = window_left+x_edit, window_top+y_edit, window_width+width_edit, window_height+height_edit
-        time.sleep(0.1)
+            print(colored("[ACTIVE]", "green", attrs=['bold']), end="")
+            print(colored(" - Program active. Press 'q' to pause.", "green"))
+        time.sleep(0.25)
 
     if paused:
         time.sleep(0.1)
@@ -66,6 +67,12 @@ while True:
         # iml = pyautogui.screenshot(region=(x, y, width, height))
         # iml.save(f"{current_dir}\screenshot.png")
         # time.sleep(1)
+
+        # refresh the window status and coordinates
+        window = get_window(window_name)
+        is_window_none(window)
+        window_left, window_top, window_width, window_height = window.left, window.top, window.width, window.height
+        x, y, width, height = window_left+x_edit, window_top+y_edit, window_width+width_edit, window_height+height_edit
 
         try:
             restart_button_color = pyautogui.pixel(window.left + restart_button_x, window.bottom + restart_button_y)
