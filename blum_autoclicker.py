@@ -57,11 +57,11 @@ def setup_blum_bot(offset):
     click(305, 100) # blum bot
     time.sleep(1)
     click(810, 925) # start bot
-    time.sleep(5)
+    time.sleep(8)
 
 def start_game():
     click(960, 715) # farming button
-    time.sleep(1)
+    time.sleep(3)
     click(960, 715) # farming button
     time.sleep(1)
 
@@ -151,7 +151,7 @@ while True:
                     if current_mouse_position != prev_mouse_pos:
                         prev_mouse_pos = current_mouse_position
                         last_move_time = time.time()
-                    if time.time() - last_move_time > 3: # if the mouse is not moving for 3 seconds
+                    if time.time() - last_move_time > 10: # if the mouse is not moving for 3 seconds
                         flag = 1 # exit the inner while loop to change the user
                 except:
                     is_window_none(window)
