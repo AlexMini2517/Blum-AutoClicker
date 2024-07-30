@@ -57,7 +57,7 @@ def setup_blum_bot(offset):
     click(305, 100) # blum bot
     time.sleep(1)
     click(810, 925) # start bot
-    time.sleep(8)
+    time.sleep(10)
 
 def start_game():
     click(960, 715) # farming button
